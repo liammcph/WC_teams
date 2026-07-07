@@ -1,0 +1,155 @@
+.team-header {
+  padding: 35px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-details {
+  width: 98%;
+}
+
+.team-actions {
+  margin-top: 20px;
+}
+
+.builder-container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  align-items: center;
+}
+
+.subsection-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.subsection-content {
+  margin: 0 8px;
+}
+
+.player-card {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ccc;
+  padding: 4px 0;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.stats {
+  color: #777;
+}
+
+.lineup-slot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ccc;
+  padding: 4px 0;
+}
+
+.lineup-slot p {
+  flex: 1;
+}
+
+.slot-label {
+  width: 48px;
+  font-weight: 700;
+  font-size: var(--font-l);
+}
+
+.empty-slot {
+  color: #777;
+}
+
+.no-players {
+  margin: 0;
+  font-weight: bold;
+}
+
+.team-details h1 {
+  font-size: var(--font-xxl);
+  margin: 15px 0 3px;
+}
+
+.team-details h2 {
+  font-size: var(--font-xl);
+  margin: 0 0 10px;
+}
+
+.builder-container > section {
+  width: 80%;
+  min-width: 360px;
+  border: var(--borders);
+  border-radius: var(--card-border-radius);
+  padding: 10px;
+  box-shadow: var(--card-box-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.player-pool h2,
+.lineup h2 {
+  font-size: 3.2rem;
+  margin: 0;
+}
+
+.subsection-content p,
+.subsection-content input,
+.subsection-content select {
+  font-size: var(--font-l);
+}
+
+.country-filter {
+  margin: 0 8px 12px;
+}
+
+.country-filter label {
+  font-size: var(--font-reg);
+}
+
+.country-filter select {
+  font-size: var(--font-l);
+  padding: 3px;
+  margin: 0 8px;
+}
+
+.player-card .btn,
+.lineup-slot .btn {
+  padding: 3px 10px;
+  margin-left: 10px;
+}
+
+@media only screen and (min-width: 768px) {
+  .team-header {
+    padding: 35px 30px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+  }
+
+  .builder-container {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+
+  .builder-container > section {
+    width: 45%;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .builder-container {
+    padding: 0 40px;
+  }
+}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link
+  rel="stylesheet"
+  href="{% static 'css/teams/team-index.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <h1>{{ user.username }}'s Teams</h1>
+</section>
+
+<section class="card-container">
+  {% for team in teams %}
+  <a href="{% url 'team-detail' team.id %}">
+    <div class="card">
+      <div class="card-content">
+        <h2 class="card-title">{{ team.name }}</h2>
+        <p>{{ team.players.count }} / 11 players</p>
+      </div>
+    </div>
+  </a>
+  {% empty %}
+  <p class="page-content">
+    You don't have any teams yet.
+    <a href="{% url 'team-create' %}">Start a new team!</a>
+  </p>
+  {% endfor %}
+</section>
+
+{% endblock %}

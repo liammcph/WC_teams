@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% load static %} {% block head %}
+<link rel="stylesheet" href="{% static 'css/teams/team-detail.css' %}" />
+{% endblock %} {% block content %}
+<section class="team-header">
+  <div class="team-details">
+    <h1>{{ team.name }}</h1>
+    <h2>{{ team.players.count }} / 11 selected</h2>
+    <div class="team-actions">
+      <a href="{% url 'team-update' team.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'team-delete' team.id %}" class="btn danger">Delete</a>
+    </div>
+  </div>
+</section>
+
+<div class="builder-container">
+  <section class="player-pool">
+    <div class="subsection-title">
+      <h2>Available Players</h2>
+    </div>
+
+    <form action="" method="get" class="country-filter">
+      <label for="country">Country:</label>
+      <select name="country" id="country">
+        {% for code, label in countries %}
+        <option value="{{ code }}" {% if code == selected_country %}selected{% endif %}>
+          {{ label }}
+        </option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn secondary">Filter</button>
+    </form>
+
+    <div class="subsection-content">
+      {% for player in players %}
+      <div class="player-card">
+        <div class="player-info">
+          <p>{{ player.get_country_display }} {{ player.name }} ({{ player.get_position_display }})</p>
+          <p class="stats"><small>Goals: — | Assists: — | Caps: —</small></p>
+        </div>
+        <form action="{% url 'add-player' team.id player.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn submit">Add</button>
+        </form>
+      </div>
+      {% empty %}
+      <p class="no-players">No available players from this country.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="lineup">
+    <div class="subsection-title">
+      <h2>Starting 11</h2>
+    </div>
+    <div class="subsection-content">
+      {% for spot in lineup %}
+      <div class="lineup-slot">
+        <span class="slot-label">{{ spot.slot }}</span>
+        {% if spot.player %}
+        <p>{{ spot.player.get_country_display }} {{ spot.player.name }}</p>
+        <form action="{% url 'remove-player' team.id spot.player.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn danger">Remove</button>
+        </form>
+        {% else %}
+        <p class="empty-slot">Empty — needs a {{ spot.position }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+{% endblock %}
