@@ -28,6 +28,13 @@ COUNTRIES = (
     ('CO', '🇨🇴 Colombia'),
 )
 
+API_POSITION_MAP = {
+    'Goalkeeper': 'GK',
+    'Defender': 'DEF',
+    'Midfielder': 'MID',
+    'Attacker': 'FWD',
+}
+
 FORMATION = (
     ('GK', 'GK'),
     ('LB', 'DEF'),
@@ -47,6 +54,20 @@ class Player(models.Model):
     name = models.CharField(max_length=100)
     country = models.CharField(max_length=2, choices=COUNTRIES)
     position = models.CharField(max_length=3, choices=POSITIONS)
+    # API-Football player id; null for rows not sourced from the API
+    api_id = models.IntegerField(unique=True, null=True, blank=True)
+    # World Cup 2026 tournament stats (snapshot from fetch_players)
+    appearances = models.PositiveIntegerField(default=0)
+    minutes = models.PositiveIntegerField(default=0)
+    goals = models.PositiveIntegerField(default=0)
+    assists = models.PositiveIntegerField(default=0)
+    rating = models.FloatField(null=True, blank=True)
+    shots = models.PositiveIntegerField(default=0)
+    shots_on = models.PositiveIntegerField(default=0)
+    penalties_scored = models.PositiveIntegerField(default=0)
+    penalties_missed = models.PositiveIntegerField(default=0)
+    saves = models.PositiveIntegerField(default=0)
+    goals_conceded = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.get_country_display()} {self.name}"

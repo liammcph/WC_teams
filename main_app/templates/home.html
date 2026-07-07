@@ -3,8 +3,9 @@
 {% endblock %} {% block content %}
 
 <section class="logo-container">
-  <h1>⚽ Best Eleven</h1>
+  <h1>Best Eleven</h1>
   <p>Build your 2026 World Cup Best 11</p>
+  <img src="{% static 'images/players.png' %}" alt="World Cup star players" class="hero-players" />
 </section>
 {% if not user.is_authenticated %}
 <section>

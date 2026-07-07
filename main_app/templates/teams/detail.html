@@ -35,10 +35,16 @@
       <div class="player-card">
         <div class="player-info">
           <p>{{ player.get_country_display }} {{ player.name }} ({{ player.get_position_display }})</p>
-          <p class="stats"><small>Goals: — | Assists: — | Caps: —</small></p>
+          <p class="stats"><small>
+            Apps: {{ player.appearances }} | Mins: {{ player.minutes }} |
+            Goals: {{ player.goals }} | Assists: {{ player.assists }} |
+            Rating: {{ player.rating|floatformat:2|default:"—" }} |
+            {% if player.position == 'GK' %}Saves: {{ player.saves }} | Conceded: {{ player.goals_conceded }}{% else %}Shots: {{ player.shots }} ({{ player.shots_on }} on target){% endif %}
+          </small></p>
         </div>
         <form action="{% url 'add-player' team.id player.id %}" method="post">
           {% csrf_token %}
+          <input type="hidden" name="country" value="{{ selected_country }}" />
           <button type="submit" class="btn submit">Add</button>
         </form>
       </div>
@@ -60,6 +66,7 @@
         <p>{{ spot.player.get_country_display }} {{ spot.player.name }}</p>
         <form action="{% url 'remove-player' team.id spot.player.id %}" method="post">
           {% csrf_token %}
+          <input type="hidden" name="country" value="{{ selected_country }}" />
           <button type="submit" class="btn danger">Remove</button>
         </form>
         {% else %}

@@ -85,7 +85,7 @@
 }
 
 .builder-container > section {
-  width: 80%;
+  width: 95%;
   min-width: 360px;
   border: var(--borders);
   border-radius: var(--card-border-radius);
@@ -145,6 +145,14 @@
 
   .builder-container > section {
     width: 45%;
+  }
+
+  .builder-container > .player-pool {
+    width: 60%;
+  }
+
+  .builder-container > .lineup {
+    width: 38%;
   }
 }
 

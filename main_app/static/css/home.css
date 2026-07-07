@@ -25,7 +25,8 @@ main > section {
 }
 
 .logo-container h1 {
-  font-size: clamp(3.6rem, 4vw, 5.4rem);
+  font-family: 'Staatliches', sans-serif;
+  font-size: clamp(5.8rem, 6.4vw, 8.6rem);
   margin: 10px 0;
 }
 

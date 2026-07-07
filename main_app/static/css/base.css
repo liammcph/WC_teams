@@ -127,6 +127,21 @@ nav li {
   white-space: nowrap;
 }
 
+.hero-players {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 12px auto 0;
+}
+
+@media only screen and (min-width: 768px) {
+  .hero-players {
+    width: 140%;
+    margin-left: -20%;
+    max-width: none;
+  }
+}
+
 .header-logo:hover {
   color: var(--link-hover-color);
 }

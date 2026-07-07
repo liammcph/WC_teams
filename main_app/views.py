@@ -1,6 +1,9 @@
 # main_app/views.py
 
+from urllib.parse import urlencode
 from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.db.models import Case, When, Value, IntegerField
 from .models import Team, Player, COUNTRIES, FORMATION
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView
@@ -58,9 +61,18 @@ def team_detail(request, team_id):
 
     selected_country = request.GET.get('country', COUNTRIES[0][0])
 
-    # Fetch players from that country but skip ones already on the team
+    # Fetch players from that country but skip ones already on the team,
+    # ordered GK -> DEF -> MID -> FWD, top scorers first within each position
+    position_rank = Case(
+        When(position='GK', then=Value(0)),
+        When(position='DEF', then=Value(1)),
+        When(position='MID', then=Value(2)),
+        When(position='FWD', then=Value(3)),
+        output_field=IntegerField(),
+    )
     players = Player.objects.filter(country=selected_country).exclude(
-        id__in=team.players.all().values_list('id'))
+        id__in=team.players.all().values_list('id')
+    ).annotate(position_rank=position_rank).order_by('position_rank', '-goals', 'name')
 
     lineup = []
     for slot, position in FORMATION:
@@ -80,6 +92,14 @@ def team_detail(request, team_id):
     })
 
 
+def detail_redirect(request, team_id):
+    url = reverse('team-detail', kwargs={'team_id': team_id})
+    country = request.POST.get('country')
+    if country:
+        url += '?' + urlencode({'country': country})
+    return redirect(url)
+
+
 @login_required
 def add_player(request, team_id, player_id):
     team = Team.objects.get(id=team_id)
@@ -89,13 +109,13 @@ def add_player(request, team_id, player_id):
         if position == player.position and slot not in taken:
             team.players.add(player, through_defaults={'position_in_11': slot})
             break
-    return redirect('team-detail', team_id=team_id)
+    return detail_redirect(request, team_id)
 
 
 @login_required
 def remove_player(request, team_id, player_id):
     Team.objects.get(id=team_id).players.remove(player_id)
-    return redirect('team-detail', team_id=team_id)
+    return detail_redirect(request, team_id)
 
 
 # CreateView handles both the GET and POST request
