@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .DS_Store
 .env
+staticfiles/
+# un-ignore from global gitignore; Heroku reads this to pick the Python version
+!.python-version
